@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Aspect Ratio Calculator</title>
+  <script>
+    function calculate() {
+      var widthRatio = parseFloat(document.getElementById('widthRatio').value);
+      var heightRatio = parseFloat(document.getElementById('heightRatio').value);
+      var widthValue = parseFloat(document.getElementById('widthValue').value);
+      var heightValue = parseFloat(document.getElementById('heightValue').value);
+
+      if (isNaN(widthRatio) || isNaN(heightRatio) || isNaN(widthValue) || isNaN(heightValue)) {
+        alert("Please enter valid numbers in all fields.");
+        return;
+      }
+
+      if (widthRatio <= 0 || heightRatio <= 0 || widthValue <= 0 || heightValue <= 0) {
+        alert("Please enter positive values in all fields.");
+        return;
+      }
+
+      if (widthRatio > heightRatio) {
+        heightValue = widthValue * (heightRatio / widthRatio);
+      } else if (heightRatio > widthRatio) {
+        widthValue = heightValue * (widthRatio / heightRatio);
+      }
+
+      document.getElementById('widthValue').value = widthValue.toFixed(2);
+      document.getElementById('heightValue').value = heightValue.toFixed(2);
+    }
+
+    window.addEventListener('DOMContentLoaded', function() {
+      var inputs = document.getElementsByTagName('input');
+      for (var i = 0; i < inputs.length; i++) {
+        inputs[i].addEventListener('input', calculate);
+      }
+    });
+  </script>
+</head>
+<body>
+  <h1>Aspect Ratio Calculator</h1>
+
+  <form>
+    <label for="widthRatio">Width Ratio:</label>
+    <input type="number" id="widthRatio" step="0.01" required><br>
+
+    <label for="heightRatio">Height Ratio:</label>
+    <input type="number" id="heightRatio" step="0.01" required><br>
+
+    <label for="widthValue">Width Value:</label>
+    <input type="number" id="widthValue" step="0.01" required><br>
+
+    <label for="heightValue">Height Value:</label>
+    <input type="number" id="heightValue" step="0.01" required><br>
+
+    <button type="button" onclick="calculate()">Calculate</button>
+  </form>
+</body>
+</html>
