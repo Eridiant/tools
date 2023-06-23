@@ -54,21 +54,21 @@
             var simpleDenominator = denominator / gcd;
 
             // Maximum fraction reduction with 5% error
-            var maxNumerator = numerator;
-            var maxDenominator = denominator;
-            var errorThreshold = numerator * 0.05;
+            var maxNumerator = Math.round(numerator * 0.95);
+            var maxDenominator = Math.round(denominator * 0.95);
+            var maxGCD = calculateGCD(maxNumerator, maxDenominator);
+            var maxReducedNumerator = maxNumerator / maxGCD;
+            var maxReducedDenominator = maxDenominator / maxGCD;
 
-            while (maxNumerator > numerator - errorThreshold || maxDenominator > denominator - errorThreshold) {
-                maxNumerator--;
-                maxDenominator--;
-                var maxGCD = calculateGCD(maxNumerator, maxDenominator);
-                maxNumerator /= maxGCD;
-                maxDenominator /= maxGCD;
-            }
+            // Maximum fraction reduction with 5% error and minimum integers
+            var minValue = Math.min(maxReducedNumerator, maxReducedDenominator);
+            var minReducedNumerator = Math.floor(maxReducedNumerator / minValue);
+            var minReducedDenominator = Math.floor(maxReducedDenominator / minValue);
 
             // Display the results
             document.getElementById('simple-result').innerHTML = simpleNumerator + '/' + simpleDenominator;
-            document.getElementById('max-result').innerHTML = maxNumerator + '/' + maxDenominator;
+            document.getElementById('max-result').innerHTML = maxReducedNumerator + '/' + maxReducedDenominator;
+            document.getElementById('min-result').innerHTML = minReducedNumerator + '/' + minReducedDenominator;
         }
 
         function calculateGCD(a, b) {
@@ -114,5 +114,6 @@
     <h2>Results</h2>
     <p>Simple Fraction Reduction: <span id="simple-result"></span></p>
     <p>Max Fraction Reduction with 5% Error: <span id="max-result"></span></p>
+    <p>Min Fraction Reduction with 5% Error (Minimum Integers): <span id="min-result"></span></p>
 </body>
 </html>
