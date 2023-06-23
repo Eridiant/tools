@@ -9,15 +9,15 @@
       var widthValue = parseFloat(document.getElementById('widthValue').value);
       var heightValue = parseFloat(document.getElementById('heightValue').value);
 
-      if (isNaN(widthRatio) || isNaN(heightRatio) || isNaN(widthValue) || isNaN(heightValue)) {
-        alert("Please enter valid numbers in all fields.");
-        return;
-      }
+      // if (isNaN(widthRatio) || isNaN(heightRatio) || isNaN(widthValue) || isNaN(heightValue)) {
+      //   alert("Please enter valid numbers in all fields.");
+      //   return;
+      // }
 
-      if (widthRatio <= 0 || heightRatio <= 0 || widthValue <= 0 || heightValue <= 0) {
-        alert("Please enter positive values in all fields.");
-        return;
-      }
+      // if (widthRatio <= 0 || heightRatio <= 0 || widthValue <= 0 || heightValue <= 0) {
+      //   alert("Please enter positive values in all fields.");
+      //   return;
+      // }
 
       if (widthRatio > heightRatio) {
         heightValue = widthValue * (heightRatio / widthRatio);
@@ -29,12 +29,48 @@
       document.getElementById('heightValue').value = heightValue.toFixed(2);
     }
 
-    window.addEventListener('DOMContentLoaded', function() {
-      var inputs = document.getElementsByTagName('input');
-      for (var i = 0; i < inputs.length; i++) {
-        inputs[i].addEventListener('input', calculate);
-      }
-    });
+    // document?.querySelector('form')?.addEventListener('focusout', function() {
+    //   var inputs = document.getElementsByTagName('input');
+    //   for (var i = 0; i < inputs.length; i++) {
+    //     inputs[i].addEventListener('input', calculate);
+    //   }
+    // });
+
+    function reduceFraction() {
+            var numerator = parseInt(document.getElementById('numerator').value);
+            var denominator = parseInt(document.getElementById('denominator').value);
+
+            // Simple fraction reduction
+            var gcd = calculateGCD(numerator, denominator);
+            var simpleNumerator = numerator / gcd;
+            var simpleDenominator = denominator / gcd;
+
+            // Maximum fraction reduction with 5% error
+            var maxNumerator = numerator;
+            var maxDenominator = denominator;
+            var errorThreshold = numerator * 0.05;
+
+            while (maxNumerator > numerator - errorThreshold || maxDenominator > denominator - errorThreshold) {
+                maxNumerator--;
+                maxDenominator--;
+                var maxGCD = calculateGCD(maxNumerator, maxDenominator);
+                maxNumerator /= maxGCD;
+                maxDenominator /= maxGCD;
+            }
+
+            // Display the results
+            document.getElementById('simple-result').innerHTML = simpleNumerator + '/' + simpleDenominator;
+            document.getElementById('max-result').innerHTML = maxNumerator + '/' + maxDenominator;
+        }
+
+        function calculateGCD(a, b) {
+            if (b === 0) {
+                return a;
+            }
+            return calculateGCD(b, a % b);
+        }
+
+    
   </script>
 </head>
 <body>
@@ -55,5 +91,16 @@
 
     <button type="button" onclick="calculate()">Calculate</button>
   </form>
+
+
+  <h1>Fraction Reduction Calculator</h1>
+    <p>
+        Numerator: <input type="text" id="numerator">
+        Denominator: <input type="text" id="denominator">
+        <button onclick="reduceFraction()">Reduce</button>
+    </p>
+    <h2>Results</h2>
+    <p>Simple Fraction Reduction: <span id="simple-result"></span></p>
+    <p>Max Fraction Reduction with 5% Error: <span id="max-result"></span></p>
 </body>
 </html>
