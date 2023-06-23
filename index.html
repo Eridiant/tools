@@ -29,6 +29,14 @@
       document.getElementById('heightValue').value = heightValue.toFixed(2);
     }
 
+    function multiplyByTwo(fieldId) {
+      var value = parseFloat(document.getElementById(fieldId).value);
+      if (!isNaN(value)) {
+        document.getElementById(fieldId).value = (value * 2).toFixed(2);
+        calculate();
+      }
+    }
+
     // document?.querySelector('form')?.addEventListener('focusout', function() {
     //   var inputs = document.getElementsByTagName('input');
     //   for (var i = 0; i < inputs.length; i++) {
@@ -90,6 +98,10 @@
     <input type="number" id="heightValue" step="0.01" required><br>
 
     <button type="button" onclick="calculate()">Calculate</button>
+
+    <button type="button" onclick="multiplyByTwo('widthValue')">Multiply Width by 2</button>
+
+    <button type="button" onclick="multiplyByTwo('heightValue')">Multiply Height by 2</button>
   </form>
 
 
